@@ -105,14 +105,27 @@ def make_clean() :
     map_to_number(data, 'Heating_QC', ['Po', 'Fa', 'TA', 'Gd', 'Ex'])
     map_to_number(data, 'Kitchen_Qual', ['Po', 'Fa', 'TA', 'Gd', 'Ex'])
     map_to_number(data, 'Central_Air', ['N', 'Y'], start=0)
-
+    
     
     # Fireplace Quality 
     data['Fireplace_Qu'].fillna('0', inplace=True)
     map_to_number(data, 'Fireplace_Qu',
-                  ['0', 'Po', 'Fa', 'TA', 'Gd', 'Ex'],
-                  start=0)
+                  ['0', 'Po', 'Fa', 'TA', 'Gd', 'Ex'], start=0)
 
+    data['Garage_Finish'].fillna('0', inplace=True)
+    map_to_number(data, 'Garage_Finish',
+                  ['0', 'Unf', 'RFn', 'Fin'], start=0)
+    
+    data['Garage_Qual'].fillna('0', inplace=True)
+    map_to_number(data, 'Garage_Qual',
+                  ['0', 'Po', 'Fa', 'TA', 'Gd', 'Ex'], start=0)
+    
+    data['Garage_Cond'].fillna('0', inplace=True)
+    map_to_number(data, 'Garage_Cond',
+                  ['0', 'Po', 'Fa', 'TA', 'Gd', 'Ex'], start=0)
+    
+    data['Pool_QC'].fillna('0', inplace=True)
+    map_to_number(data, 'Pool_QC', ['0', 'Fa', 'TA', 'Gd'], start=0)
     
     # Fill null values 
     fill_na(data, 'Lot_Frontage', strategy='mean')
@@ -124,6 +137,7 @@ def make_clean() :
     data['Bsmt_Full_Bath'].fillna(0, inplace=True)
     data['Bsmt_Half_Bath'].fillna(0, inplace=True)
     
+    
     # Categorical columns that I don't want to drop_first.
     cat_data1 = ['MS_SubClass', 'MS_Zoning', 'Alley', 'Lot_Shape',
                  'Land_Contour', 'Lot_Config', 'Land_Slope',
@@ -133,9 +147,11 @@ def make_clean() :
                  'Mas_Vnr_Type', 'Exter_Qual', 'Exter_Cond', 
                 'Foundation', 'Bsmt_Qual', 'Bsmt_Cond', 
                 'Bsmt_Exposure', 'BsmtFin_Type_1', 'BsmtFin_Type_2',
-                'Heating', 'Electrical', 'Functional', 'Garage_Type']
+                'Heating', 'Electrical', 'Functional', 'Paved_Drive',
+                 'Garage_Type', 'Fence', 'Sale_Type']
     
     #            'BsmtFin_SF_1', 'BsmtFin_SF_2', 'Total_Bsmaaaat ]
+
     
     # Categorical data where I do want to drop_first
     cat_data2 = ['Street', 'Utilities']
@@ -147,7 +163,11 @@ def make_clean() :
     for c in cat_data2 :
         data = dummy_drop(data, c, drop_first=True)
 
+    # Other :
+    data = dummy_drop(data, 'Misc_Feature', prefix='m')
     
-   
+    # Completly Drop some columns :
+    data.drop('Garage_Cars', axis=1, inplace=True)
+
      
     return data
