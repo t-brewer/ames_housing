@@ -8,13 +8,12 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler, Imputer
 from sklearn.model_selection import cross_val_score, train_test_split
 
-def load_data():
+def load_data(file_name):
     # Load training data
-    data = pd.read_csv('../data/train.csv')
+    data = pd.read_csv(file_name)
     # Replace spaces with underscores in column names
     data.columns = [c.replace(' ', '_') for c in data.columns]
     
-    data.drop(['Id', 'PID'], axis=1, inplace=True)
     return data
 
 
