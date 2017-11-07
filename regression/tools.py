@@ -52,5 +52,12 @@ def corr_map(data, figsize=(15,10), mask_val = None):
     pass
 
 
+def corr_bar(data, figsize=(15,5)):
+    corr = data.corr()
+    
+    f, ax = plt.subplots(figsize=figsize)
+    corr.plot(x=corr.columns, y='SalePrice', kind='bar', ax=ax)
+
+    pass
     
 
